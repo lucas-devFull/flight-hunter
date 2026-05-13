@@ -4,6 +4,24 @@ import { formatCurrencyBRL, formatDateBR, formatDuration } from '@utils/formatte
 
 import type { FlightPromotion } from '@flight-types/FlightPromotion';
 
+/** Mapa de código IATA de origem → sigla do estado */
+const ORIGIN_STATES: Record<string, string> = {
+  GRU: 'SP', CGH: 'SP', VCP: 'SP',
+  GIG: 'RJ', SDU: 'RJ',
+  BSB: 'DF',
+  CNF: 'MG',
+  CWB: 'PR', IGU: 'PR',
+  POA: 'RS',
+  FLN: 'SC',
+  REC: 'PE',
+  SSA: 'BA',
+  FOR: 'CE',
+  NAT: 'RN',
+  MCZ: 'AL',
+  MAO: 'AM',
+  BEL: 'PA',
+};
+
 export function buildPromotionEmbed(promotion: FlightPromotion, aiAnalysis?: string, dateFallback?: boolean): EmbedBuilder {
   const dateLabel = promotion.returnDate
     ? `${formatDateBR(promotion.departureDate)} -> ${formatDateBR(promotion.returnDate)}`
@@ -50,12 +68,14 @@ export function buildPromotionEmbed(promotion: FlightPromotion, aiAnalysis?: str
     ? `${dateLabel}\n📅 Data gerada automaticamente`
     : dateLabel;
 
-  // Rota com nomes de cidade: "São Paulo (GRU) → Lisboa (LIS)"
+  // Rota com cidade + estado/país: "São Paulo, SP (GRU) → Lisboa, Portugal (LIS)"
+  const originState = ORIGIN_STATES[promotion.origin.toUpperCase()] || '';
   const originLabel = promotion.originName && promotion.originName !== promotion.origin
-    ? `${promotion.originName} (${promotion.origin})`
+    ? `${promotion.originName}${originState ? `, ${originState}` : ''} (${promotion.origin})`
     : promotion.origin;
+  const destCountry = promotion.destinationCountry || '';
   const destLabel = promotion.destination && promotion.destination !== promotion.destinationCode
-    ? `${promotion.destination} (${promotion.destinationCode})`
+    ? `${promotion.destination}${destCountry ? `, ${destCountry}` : ''} (${promotion.destinationCode})`
     : promotion.destinationCode;
   const routeValue = `${originLabel} → ${destLabel}`;
 
