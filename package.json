@@ -1,0 +1,39 @@
+{
+  "name": "flight-hunter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsup src/index.ts --format esm --dts --out-dir dist --clean",
+    "start": "node dist/index.js",
+    "lint": "eslint 'src/**/*.{ts,tsx}' --max-warnings=0",
+    "deploy:commands": "tsx src/deploy-commands.ts",
+    "test": "vitest --run"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "discord.js": "^14.14.0",
+    "dotenv": "^16.3.1",
+    "node-cron": "^3.0.2",
+    "pino": "^8.16.0",
+    "zod": "^3.23.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.2",
+    "@typescript-eslint/eslint-plugin": "^7.17.0",
+    "@typescript-eslint/parser": "^7.17.0",
+    "@vitest/coverage-v8": "^4.1.6",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.4",
+    "fast-check": "^4.8.0",
+    "pino-pretty": "^11.0.0",
+    "prettier": "^3.8.3",
+    "ts-node": "^10.9.1",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.6.0",
+    "vitest": "^4.1.6"
+  }
+}
